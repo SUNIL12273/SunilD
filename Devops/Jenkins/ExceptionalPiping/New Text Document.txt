@@ -1,0 +1,104 @@
+pipeline
+{
+    agent any
+    stages
+    {
+ stage('ContinuousDownload') 
+ {
+     steps
+     {
+         script
+         {
+             try
+             {
+               git 'https://github.com/SUNIL12273/maven.git'  
+             }
+             catch(Exception e1)
+             {
+                 mail bcc: '', body: 'unable to download the code from github account', cc: '', from: '', replyTo: '', subject: 'Github Code is not Downloaded', to: 'developerteam@outlook.com'
+                 exit(1)
+             }
+             
+         }
+  
+     }
+}
+  stage('ContinuousBuild') 
+ {
+     steps
+     {
+         script
+         {
+             try
+             {
+              sh label: '', script: 'mvn package'
+             }
+             catch(Exception e2)
+             {
+                 mail bcc: '', body: 'not able to generate build file war', cc: '', from: '', replyTo: '', subject: 'Build Processe failed', to: 'Itteam@outlook.com'
+                 exit(1)
+             }
+             
+         }
+        
+     }
+ }
+ stage('ContinuousDeployment') 
+ {
+      steps
+     {
+         script
+         {
+             try
+             {
+                sh label: '', script: 'scp /home/ubuntu/.jenkins/workspace/ExceptionalPiping/webapp/target/webapp.war ubuntu@172.31.0.149:/var/lib/tomcat8/webapps/testapp11.war'
+             }
+             catch(Exception e3)
+             {
+             mail bcc: '', body: 'unable to deploy war file into testing environment', cc: '', from: '', replyTo: '', subject: 'Deployment Failed in jenkins', to: 'deploymentteam@outlook.com'
+             exit(1)
+             }
+         }
+     }
+}
+  stage('ContinuousTesting') 
+ {
+      steps
+     {
+         script
+         {
+             try
+             {
+                 git 'https://github.com/SUNIL12273/FunctionalTesting.git'
+sh label: '', script: 'java -jar /home/ubuntu/.jenkins/workspace/ExceptionalPiping/testing.jar'
+             }
+             catch(Exception e4)
+             {
+                 mail bcc: '', body: 'Unable to download teat cases from git hub and not able to run it', cc: '', from: '', replyTo: '', subject: 'Testing Failed in jenkins', to: 'Testingteam@outlook.com'
+                exit(1)
+             }
+         }
+    }
+}
+
+stage('ContinuousDelivery') 
+ {
+      steps
+     {
+         script
+         {
+           try
+            {
+                input message: 'Approval required from Delivery manager', submitter: 'monika'
+                 sh label: '', script: 'scp /home/ubuntu/.jenkins/workspace/ExceptionalPiping/webapp/target/webapp.war ubuntu@172.31.8.98:/var/lib/tomcat8/webapps/prodapp11.war'
+             }
+             catch(Exception e5)
+                {
+                    mail bcc: '', body: 'not able to deploy into prod environment', cc: '', from: '', replyTo: '', subject: 'Prod deployment Failed in jenkins', to: 'productionteam@outlook.com'
+                    exit(1)
+                }
+           }
+        }
+      }
+    }
+}

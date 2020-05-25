@@ -1,0 +1,15 @@
+{docker}&{docker-swarm}
+{kubernetess}
+{jenkins}
+{ansible}
+{git}
+bamboo
+vagrant
+ant
+maven
+swarn
+nagios
+
+{phython}
+{linux}
+{aws}

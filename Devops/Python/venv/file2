@@ -1,0 +1,13 @@
+a=5
+print(a)
+
+print("a")
+
+b=15.56
+print(b)
+print(10+5)
+print("hi"+"5")
+print("program finished",b)
+
+
+

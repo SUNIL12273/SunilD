@@ -1,0 +1,12 @@
+#if and else condition in python program
+
+a=10
+b=20
+c=15
+
+if a > b or a > c:
+    print("a is the greatest number")
+elif b < c:
+    print("c is the greatest number")
+else :
+    print("b is the greatest number")

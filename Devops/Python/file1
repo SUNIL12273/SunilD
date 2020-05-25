@@ -1,0 +1,10 @@
+print("hello python")
+
+print('how are you')
+
+print('he said, "this is an excellent book to read"')
+
+print('he said, "lets\'s go for cinema"')
+
+print("he said, \"let's go for cinema\"")
+
